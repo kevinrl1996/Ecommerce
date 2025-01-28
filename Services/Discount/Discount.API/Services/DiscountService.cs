@@ -17,13 +17,13 @@ namespace Discount.API.Services
 			_discountRepository = discountRepository;
 		}
 
-		public async Task<CouponModel> GetDiscount(string productName)
+		public override async Task<CouponModel> GetDiscount(GetDiscountRequest request, ServerCallContext context)
 		{
-			var coupon = await _discountRepository.GetDiscount(productName);
+			var coupon = await _discountRepository.GetDiscount(request.ProductName);
 
 			if (coupon == null)
 			{
-				throw new RpcException(new Status(StatusCode.NotFound, $"Descuento para el producto {productName} no encontrado"));
+				throw new RpcException(new Status(StatusCode.NotFound, $"Descuento para el producto {request.ProductName} no encontrado"));
 			}
 
 			var couponModel = new CouponModel
@@ -37,30 +37,30 @@ namespace Discount.API.Services
 			return couponModel;
 		}
 
-		public async Task<CouponModel> CreateDiscount(CouponModel couponModel)
+		public override async Task<CouponModel> CreateDiscount(CreateDiscountRequest request, ServerCallContext context)
 		{
 			var coupon = new CouponModel
 			{
-				Amount = couponModel.Amount,
-				Description = couponModel.Description,
-				ProductName = couponModel.ProductName
+				Amount = request.Coupon.Amount,
+				Description = request.Coupon.Description,
+				ProductName = request.Coupon.ProductName
 			};
 
 			var newCoupon = _mapper.Map<Coupon>(coupon);
 			await _discountRepository.CreateDiscount(newCoupon);
-			couponModel = _mapper.Map<CouponModel>(coupon);
+			request.Coupon = _mapper.Map<CouponModel>(coupon);
 
-			return couponModel;
+			return request.Coupon;
 		}
 
-		public async Task<CouponModel> UpdateDiscount(CouponModel couponModel)
+		public override async Task<CouponModel> UpdateDiscount(UpdateDiscountRequest request, ServerCallContext context)
 		{
 			var coupon = new CouponModel
 			{
-				Id = couponModel.Id,
-				ProductName = couponModel.ProductName,
-				Description = couponModel.Description,
-				Amount = couponModel.Amount
+				Id = request.Coupon.Id,
+				ProductName = request.Coupon.ProductName,
+				Description = request.Coupon.Description,
+				Amount = request.Coupon.Amount
 			};
 
 			var newCoupon = _mapper.Map<Coupon>(coupon);
