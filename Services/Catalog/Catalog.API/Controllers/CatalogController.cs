@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Catalog.Core.DTOS;
 using Catalog.Core.Entities;
-using Catalog.Core.Repositories;
+using Catalog.Core.Interfaces;
 using Catalog.Core.Specs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;

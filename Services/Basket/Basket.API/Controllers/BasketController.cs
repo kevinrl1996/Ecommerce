@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Basket.Application.GrpcService;
 using Basket.Core.DTOs;
 using Basket.Core.Entities;
 using Basket.Core.Interfaces;
+using Basket.Infrastructure.GrpcService;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 

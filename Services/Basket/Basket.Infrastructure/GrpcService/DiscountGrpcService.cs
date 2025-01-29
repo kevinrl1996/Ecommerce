@@ -1,6 +1,6 @@
 ﻿using Discount.Grpc.Protos;
 
-namespace Basket.Application.GrpcService
+namespace Basket.Infrastructure.GrpcService
 {
 	public class DiscountGrpcService
 	{

@@ -1,6 +1,6 @@
 using Asp.Versioning;
-using Basket.Application.GrpcService;
 using Basket.Core.Interfaces;
+using Basket.Infrastructure.GrpcService;
 using Basket.Infrastructure.Mappers;
 using Basket.Infrastructure.Repositories;
 using Discount.Grpc.Protos;

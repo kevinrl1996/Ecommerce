@@ -1,7 +1,7 @@
 using Asp.Versioning;
-using Catalog.Application.Mappers;
-using Catalog.Core.Repositories;
+using Catalog.Core.Interfaces;
 using Catalog.Infrastructure.Data;
+using Catalog.Infrastructure.Mappers;
 using Catalog.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);

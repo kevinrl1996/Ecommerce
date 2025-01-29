@@ -1,7 +1,7 @@
 ﻿using Catalog.Core.Entities;
 using Catalog.Core.Specs;
 
-namespace Catalog.Core.Repositories
+namespace Catalog.Core.Interfaces
 {
 	public interface IProductRepository
 	{
