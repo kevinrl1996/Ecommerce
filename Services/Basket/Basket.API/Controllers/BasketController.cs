@@ -3,6 +3,8 @@ using Basket.Core.DTOs;
 using Basket.Core.Entities;
 using Basket.Core.Interfaces;
 using Basket.Infrastructure.GrpcService;
+using EventBus.Messages.Events;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -13,10 +15,12 @@ namespace Basket.API.Controllers
 		private readonly IBasketRepository _basketRepository;
 		private readonly DiscountGrpcService _discountGrpcService;
 		private readonly IMapper _mapper;
+		private readonly IPublishEndpoint _publishEndpoint;
 
-		public BasketController(IMapper mapper, IBasketRepository basketRepository, DiscountGrpcService discountGrpcService)
+		public BasketController(IMapper mapper, IPublishEndpoint publishEndpoint, IBasketRepository basketRepository, DiscountGrpcService discountGrpcService)
 		{
 			_mapper = mapper;
+			_publishEndpoint = publishEndpoint;
 			_basketRepository = basketRepository;
 			_discountGrpcService = discountGrpcService;
 		}
@@ -63,6 +67,30 @@ namespace Basket.API.Controllers
 		{
 			await _basketRepository.DeleteBasket(userName);
 			return Ok("Carrito eliminado con exito.");
+		}
+
+		[Route("[action]")]
+		[HttpPost]
+		[ProducesResponseType((int)HttpStatusCode.Accepted)]
+		[ProducesResponseType((int)HttpStatusCode.BadRequest)]
+		public async Task<IActionResult> Checkout([FromBody] BasketCheckout basketCheckout)
+		{
+			// Obtener el carrito existente
+			var basket = await _basketRepository.GetBasket(basketCheckout.UserName);
+			var basketDto = _mapper.Map<ShoppingCartDto>(basket);
+
+			if (basketDto == null)
+			{
+				return BadRequest();
+			}
+
+			var eventMsg = _mapper.Map<BasketCheckoutEvent>(basketCheckout);
+			eventMsg.TotalPrice = basketDto.TotalPrice;
+			await _publishEndpoint.Publish(eventMsg);
+
+			// Eliminar el carrito
+			var deleteCmd = _basketRepository.DeleteBasket(basketCheckout.UserName);
+			return Accepted();
 		}
 	}
 }

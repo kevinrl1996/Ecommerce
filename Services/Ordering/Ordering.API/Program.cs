@@ -1,4 +1,7 @@
 using Asp.Versioning;
+using EventBus.Messages.Common;
+using MassTransit;
+using Ordering.API.EventBus.Consumer;
 using Ordering.API.Extensions;
 using Ordering.Infrastructure.Data;
 using Ordering.Infrastructure.Extensions;
@@ -22,6 +25,27 @@ builder.Services.AddApplicationServices();
 
 //Application Infra Services
 builder.Services.AddInfraServices(builder.Configuration);
+
+// Consumer class
+builder.Services.AddScoped<BasketOrderingConsumer>();
+
+// Mass Transit
+builder.Services.AddMassTransit(config =>
+{
+	// Mark this as consumer
+	config.AddConsumer<BasketOrderingConsumer>();
+	config.UsingRabbitMq((ctx, cfg) =>
+	{
+		cfg.Host(builder.Configuration["EventBusSettings:HostAddress"]);
+		// Provide the queue name with consumer settings
+		cfg.ReceiveEndpoint(EventBusConstant.BasketCheckoutQueue, c =>
+		{
+			c.ConfigureConsumer<BasketOrderingConsumer>(ctx);
+		});
+	});
+});
+
+builder.Services.AddMassTransitHostedService();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
