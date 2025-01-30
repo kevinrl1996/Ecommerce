@@ -10,11 +10,13 @@ namespace Discount.API.Services
 	{
 		private readonly IMapper _mapper;
 		private readonly IDiscountRepository _discountRepository;
+		private readonly ILogger<DiscountService> _logger;
 
-		public DiscountService(IMapper mapper, IDiscountRepository discountRepository)
+		public DiscountService(IMapper mapper, IDiscountRepository discountRepository, ILogger<DiscountService> logger)
 		{
 			_mapper = mapper;
 			_discountRepository = discountRepository;
+			_logger = logger;
 		}
 
 		public override async Task<CouponModel> GetDiscount(GetDiscountRequest request, ServerCallContext context)
@@ -33,6 +35,8 @@ namespace Discount.API.Services
 				Description = coupon.Description,
 				ProductName = coupon.ProductName
 			};
+
+			_logger.LogInformation($"Cupón para {request.ProductName} obtenido");
 
 			return couponModel;
 		}

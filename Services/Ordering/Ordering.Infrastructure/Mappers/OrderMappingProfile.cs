@@ -12,6 +12,9 @@ namespace Ordering.Infrastructure.Mappers
 			CreateMap<Order, OrderDto>().ReverseMap();
 			CreateMap<Order, CheckOutOrderDto>().ReverseMap();
 			CreateMap<Order, UpdateOrderDto>().ReverseMap();
+
+			CreateMap<Order, BasketCheckoutEvent>().ReverseMap();
+
 			CreateMap<CheckOutOrderDto, BasketCheckoutEvent>().ReverseMap();
 		}
 	}

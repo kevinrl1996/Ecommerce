@@ -16,13 +16,15 @@ namespace Basket.API.Controllers
 		private readonly DiscountGrpcService _discountGrpcService;
 		private readonly IMapper _mapper;
 		private readonly IPublishEndpoint _publishEndpoint;
+		private readonly ILogger<BasketController> _logger;
 
-		public BasketController(IMapper mapper, IPublishEndpoint publishEndpoint, IBasketRepository basketRepository, DiscountGrpcService discountGrpcService)
+		public BasketController(IMapper mapper, IPublishEndpoint publishEndpoint, IBasketRepository basketRepository, DiscountGrpcService discountGrpcService, ILogger<BasketController> logger)
 		{
 			_mapper = mapper;
 			_publishEndpoint = publishEndpoint;
 			_basketRepository = basketRepository;
 			_discountGrpcService = discountGrpcService;
+			_logger = logger;
 		}
 
 		[HttpGet]
@@ -87,6 +89,7 @@ namespace Basket.API.Controllers
 			var eventMsg = _mapper.Map<BasketCheckoutEvent>(basketCheckout);
 			eventMsg.TotalPrice = basketDto.TotalPrice;
 			await _publishEndpoint.Publish(eventMsg);
+			_logger.LogInformation($"Carrito publicado por {basketDto.UserName}");
 
 			// Eliminar el carrito
 			var deleteCmd = _basketRepository.DeleteBasket(basketCheckout.UserName);

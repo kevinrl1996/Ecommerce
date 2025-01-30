@@ -15,13 +15,15 @@ namespace Catalog.API.Controllers
 		private readonly IBrandRepository _brandRepository;
 		private readonly ITypesRepository _typesRepository;
 		private readonly IMapper _mapper;
+		private readonly ILogger<CatalogController> _logger;
 
-		public CatalogController(IMapper mapper, IProductRepository productRepository, IBrandRepository brandRepository, ITypesRepository typesRepository)
+		public CatalogController(IMapper mapper, IProductRepository productRepository, IBrandRepository brandRepository, ITypesRepository typesRepository, ILogger<CatalogController> logger)
 		{
 			_mapper = mapper;
 			_productRepository = productRepository;
 			_brandRepository = brandRepository;
 			_typesRepository = typesRepository;
+			_logger = logger;
 		}
 
 		[HttpGet]
@@ -43,6 +45,7 @@ namespace Catalog.API.Controllers
 		{
 			var product = await _productRepository.GetProductsByName(productName);
 			var productDto = _mapper.Map<IEnumerable<ProductDto>>(product);
+			_logger.LogInformation($"Producto con el nombre {productName} obtenido");
 
 			return Ok(productDto);
 		}
