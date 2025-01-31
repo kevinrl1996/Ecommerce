@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Asp.Versioning;
+using AutoMapper;
 using Basket.Core.DTOs;
 using Basket.Core.Entities;
 using Basket.Core.Interfaces;
@@ -10,6 +11,7 @@ using System.Net;
 
 namespace Basket.API.Controllers
 {
+	[ApiVersion("1")]
 	public class BasketController : ApiController
 	{
 		private readonly IBasketRepository _basketRepository;
