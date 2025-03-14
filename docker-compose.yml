@@ -1,28 +1,40 @@
 services:
   catalogdb:
     image: mongo
+
   basketdb:
     image: redis:alpine
+
   discountdb:
     image: postgres
+
   orderdb:
     image: mcr.microsoft.com/mssql/server:2022-latest
+
+  identitydb:
+    image: mysql/mysql-server
+
   rabbitmq:
     image: rabbitmq:3-management-alpine
+
   pgadmin:
     image: dpage/pgadmin4
+
   catalog.api:
     image: ${DOCKER_REGISTRY-}catalogapi
     build:
       context: .
       dockerfile: Services/Catalog/Catalog.API/Dockerfile
+
   basket.api:
     image: ${DOCKER_REGISTRY-}basketapi
     build:
       context: .
       dockerfile: Services/Basket/Basket.API/Dockerfile
+
   portainer:
     image: portainer/portainer-ce
+
   discount.api:
     image: ${DOCKER_REGISTRY-}discountapi
     build:
@@ -37,8 +49,21 @@ services:
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.17.1
+
   kibana:
     image: docker.elastic.co/kibana/kibana:8.17.1
+
+  ocelot.apigateway:
+    image: ${DOCKER_REGISTRY-}ocelotapigateway
+    build:
+      context: .
+      dockerfile: ApiGateways/Ocelot.ApiGateway/Dockerfile
+
+  ecommerce.identity:
+    image: ${DOCKER_REGISTRY-}ecommerceidentity
+    build:
+      context: .
+      dockerfile: Infrastructure/Authorization/Ecommerce.Identity/Dockerfile
 
 volumes:
   mongo_data:
@@ -47,6 +72,5 @@ volumes:
   pgadmin_data:
   elasticsearch-data:
   orderdb-data:
-
-
-
+  identitydb-data:
+    

@@ -45,6 +45,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Logging", "Infrastructure\Common.Logging\Common.Logging.csproj", "{A0AD43F4-A45C-4253-9CA5-3CD492AD526A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateways", "ApiGateways", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ocelot.ApiGateway", "ApiGateways\Ocelot.ApiGateway\Ocelot.ApiGateway.csproj", "{A055E0BB-38D9-4050-BFF3-796DC521FCD1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authorization", "Authorization", "{3C4943ED-CBA5-40C7-ACCE-124591C46A44}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Identity.Manager", "Infrastructure\Authorization\Ecommerce.Identity.Manager\Ecommerce.Identity.Manager.csproj", "{B792D9A8-2BC3-4C1A-9CD2-3799B4B293D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Identity", "Infrastructure\Authorization\Ecommerce.Identity\Ecommerce.Identity.csproj", "{1657DEC9-89E8-F237-9B1B-F0ACC96E4A7E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +121,18 @@ Global
 		{A0AD43F4-A45C-4253-9CA5-3CD492AD526A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0AD43F4-A45C-4253-9CA5-3CD492AD526A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0AD43F4-A45C-4253-9CA5-3CD492AD526A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A055E0BB-38D9-4050-BFF3-796DC521FCD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A055E0BB-38D9-4050-BFF3-796DC521FCD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A055E0BB-38D9-4050-BFF3-796DC521FCD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A055E0BB-38D9-4050-BFF3-796DC521FCD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B792D9A8-2BC3-4C1A-9CD2-3799B4B293D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B792D9A8-2BC3-4C1A-9CD2-3799B4B293D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B792D9A8-2BC3-4C1A-9CD2-3799B4B293D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B792D9A8-2BC3-4C1A-9CD2-3799B4B293D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1657DEC9-89E8-F237-9B1B-F0ACC96E4A7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1657DEC9-89E8-F237-9B1B-F0ACC96E4A7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1657DEC9-89E8-F237-9B1B-F0ACC96E4A7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1657DEC9-89E8-F237-9B1B-F0ACC96E4A7E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -134,5 +156,12 @@ Global
 		{079AFAD4-F59B-4F86-B6C7-B3C000C9F134} = {8D0B7F15-7674-45EC-BC1D-307D1E47527D}
 		{AFC15E54-D8C8-4BE9-BF02-492A55B6ECFE} = {088F3F8C-623B-4F9D-BB45-7240ACFE9124}
 		{A0AD43F4-A45C-4253-9CA5-3CD492AD526A} = {088F3F8C-623B-4F9D-BB45-7240ACFE9124}
+		{A055E0BB-38D9-4050-BFF3-796DC521FCD1} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{3C4943ED-CBA5-40C7-ACCE-124591C46A44} = {088F3F8C-623B-4F9D-BB45-7240ACFE9124}
+		{B792D9A8-2BC3-4C1A-9CD2-3799B4B293D4} = {3C4943ED-CBA5-40C7-ACCE-124591C46A44}
+		{1657DEC9-89E8-F237-9B1B-F0ACC96E4A7E} = {3C4943ED-CBA5-40C7-ACCE-124591C46A44}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D705DA0B-C619-49D1-A72A-5C8A942AEA25}
 	EndGlobalSection
 EndGlobal

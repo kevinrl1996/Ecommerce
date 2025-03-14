@@ -4,6 +4,7 @@ using Catalog.Infrastructure.Data;
 using Catalog.Infrastructure.Mappers;
 using Catalog.Infrastructure.Repositories;
 using Common.Logging;
+using Ecommerce.Identity.Manager.Configurations;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog(Logging.ConfigureLogger);
 
 builder.Services.AddControllers();
+builder.Services.AddCustomJwtAuthentication();
 
 // Add API Versioning
 builder.Services.AddApiVersioning(options =>
@@ -45,6 +47,7 @@ if (app.Environment.IsDevelopment())
 	app.UseSwaggerUI();
 }
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

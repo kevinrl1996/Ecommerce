@@ -3,6 +3,7 @@ using Catalog.Core.DTOS;
 using Catalog.Core.Entities;
 using Catalog.Core.Interfaces;
 using Catalog.Core.Specs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using System.Net;
@@ -63,6 +64,7 @@ namespace Catalog.API.Controllers
 
 		[HttpGet]
 		[Route("GetAllBrands")]
+		[Authorize]
 		[ProducesResponseType(typeof(IEnumerable<BrandDto>), (int)HttpStatusCode.OK)]
 		public async Task<ActionResult<IEnumerable<BrandDto>>> GetAllBrands()
 		{

@@ -6,11 +6,13 @@ services:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
+
   basketdb:
     container_name: basketdb
     restart: always
     ports:
       - "6379:6379"
+
   discountdb:
     container_name: discountdb
     environment:
@@ -27,6 +29,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
   orderdb:
     container_name: orderdb
     environment:
@@ -42,12 +45,24 @@ services:
       interval: 10s
       timeout: 10s
       retries: 3
+
+  identitydb:
+    container_name: identitydb
+    environment:
+      MYSQL_ROOT_PASSWORD: Zaqwsxcde-1234
+      MYSQL_USER: kevin
+      MYSQL_PASSWORD: 123456
+      MYSQL_DATABASE: IdentityDb
+    ports:
+      - "3306:3306"
+
   rabbitmq:
     container_name: rabbitmq
     restart: always
     ports:
       - "5672:5672"
       - "15672:15672"
+
   pgadmin:
     container_name: pgadmin
     environment:
@@ -58,6 +73,7 @@ services:
       - "5050:80"
     volumes:
       - pgadmin_data:/root/.pgadmin
+
   portainer:
     container_name: portainer
     restart: always
@@ -67,6 +83,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
+
   catalog.api:
     container_name: catalog.api
     environment:
@@ -81,6 +98,7 @@ services:
       - catalogdb
     ports:
       - "8000:8080"
+
   basket.api:
     container_name: basket.api
     environment:
@@ -94,6 +112,7 @@ services:
       - rabbitmq
     ports:
       - "8001:8080"
+
   discount.api:
     container_name: discount.api
     environment:
@@ -105,6 +124,7 @@ services:
          condition: service_healthy
     ports:
       - "8002:8080"
+
   ordering.api:
     container_name: ordering.api
     environment:
@@ -120,6 +140,17 @@ services:
     command: >
       /bin/sh -c "dotnet ef database update -p ../Ordering.Infrastructure -s ../Ordering.API && dotnet Ordering.API.dll"
   
+  ocelot.apigateway:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development        
+    depends_on:
+      - catalog.api
+      - basket.api
+      - discount.api
+      - ordering.api
+    ports:
+      - "8010:8080" 
+ 
   elasticsearch:
     container_name: elasticsearch
     environment:
@@ -130,6 +161,7 @@ services:
       - "9200:9200"
     volumes:
       - elasticsearch-data:/usr/share/elasticsearch/data
+
   kibana:
     container_name: kibana
     environment:
@@ -137,4 +169,17 @@ services:
     depends_on:
       - elasticsearch
     ports:
-      - "5601:5601"  
+      - "5601:5601"
+  
+  ecommerce.identity:
+    container_name: ecommerce.identity
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings__IdentityConnectionString=Server=identityDb;Database=IdentityDb;User=kevin;Password=123456;"
+    depends_on:
+       identitydb:
+         condition: service_healthy
+    ports:
+      - "8004:8080"
+    command: >
+      /bin/sh -c "dotnet ef database update -p ../Ecommerce.Identity.Manager -s ../Ecommerce.Identity && dotnet Ecommerce.Identity.dll"
